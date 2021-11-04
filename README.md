@@ -5,7 +5,7 @@ GrupoA Educação - Full Stack Web Developer
 
 O objetivo deste desafio é avaliar as competências técnicas dos candidatos a desenvolvedor Full Stack Web na Maior Plataforma de Educação do Brasil, **Grupo A Educação**. 
 
-Será solicitado o desenvolvimento de uma Aplicação que realize a Matrícula do Aluno na Turma de Programação Web da instituição EdTech. Regras e requisitos técnicos estão detalhadas neste documento.
+Será solicitado o desenvolvimento de uma Aplicação que realize a Matrícula do Student na Turma de Programação Web da instituição EdTech. Regras e requisitos técnicos estão detalhadas neste documento.
 
 # Especificações Técnicas
 - **Front End:** [Vuetifyjs](https://vuetifyjs.com/en/)  como framework de UI
@@ -16,75 +16,75 @@ Será solicitado o desenvolvimento de uma Aplicação que realize a Matrícula d
 
 # Requisitos
 ## Contextualização
-Considere que uma Instituição de Ensino Superior precisa de uma solução para cadastrar e gerenciar matrículas de usuários em turmas online. Para realizar a matrícula, é necessário que o cadastro de aluno tenha sido realizado.
+Considere que uma Instituição de Ensino Superior precisa de uma solução para cadastrar e gerenciar matrículas de usuários em turmas online. Para realizar a matrícula, é necessário que o cadastro de student tenha sido realizado.
 
 O desafio consiste em criar uma aplicação para o cadastro de usuários conforme os critérios de aceitação.
 
 ## Mockups de interface
 Abaixo alguns mockoups de interface como um guia para a criação do front-end. Fique à vontade para usar sua criatividade e melhorias na criação do front-end.
 
-* Listagem de Alunos
-![Listagem de Alunos](/mockups/studants_list.png)
+* Listagem de Students
+![Listagem de Students](/mockups/studants_list.png)
 
-* Criar/Editar Aluno
-![Listagem de Alunos](/mockups/studants_save.png)
+* Criar/Editar Student
+![Listagem de Students](/mockups/studants_save.png)
 
 ## Histórias do Usuário
 - **Sendo** um usuário administrativo da Instituição
-- **Quero** gerenciar cadastros de alunos
-- **Para** que eu possa realizar a matrícula do aluno
+- **Quero** gerenciar cadastros de students
+- **Para** que eu possa realizar a matrícula do student
 
 ### Critérios de aceite: 
 
-#### Cenário: cadastrar novo aluno
-- **Dado** que estou na tela de Consulta de Alunos
-- **Quando** clico em Cadastrar Aluno
-- **Então** abre a tela de Cadastro do Aluno
+#### Cenário: cadastrar novo student
+- **Dado** que estou na tela de Consulta de Students
+- **Quando** clico em Cadastrar Student
+- **Então** abre a tela de Cadastro do Student
 - **E** exibe os campos obrigatórios vazios
 ####
 - **Dado** que inseri dados válidos nos campos
 - **Quando** clico em Salvar
-- **Então** cria o novo aluno na base
+- **Então** cria o novo student na base
 - **E** retorna mensagem de sucesso
 ####
 - **Dado** que inseri dados válidos nos campos
 - **Quando** clico em Cancelar
-- **Então** retorna para tela Consulta de Alunos
+- **Então** retorna para tela Consulta de Students
 - **E** não persiste a gravação dos dados no banco 
 
-#### Cenário: listar alunos cadastrados 
+#### Cenário: listar students cadastrados 
 - **Dado** que estou no Módulo Acadêmico
-- **Quando** clico no menu Alunos
-- **Então** abre a tela de Consulta de Alunos 
-- **E** exibe opção Cadastrar Aluno ao topo
-- **E** lista dados dos alunos cadastrados
-- **E** exibe opção Editar por aluno
-- **E** exibe opção Excluir por aluno
+- **Quando** clico no menu Students
+- **Então** abre a tela de Consulta de Students 
+- **E** exibe opção Cadastrar Student ao topo
+- **E** lista dados dos students cadastrados
+- **E** exibe opção Editar por student
+- **E** exibe opção Excluir por student
 
-#### Cenário editar cadastro de aluno
-- **Dado** que estou na listagem de alunos
-- **Quando** clico em Editar aluno
-- **Então** abre a tela de Cadastro do Aluno 
+#### Cenário editar cadastro de student
+- **Dado** que estou na listagem de students
+- **Quando** clico em Editar student
+- **Então** abre a tela de Cadastro do Student 
 - **E** exibe os campos do cadastro preenchidos
 - **E** habilita alteração dos campos editáveis
 ####
-- **Dado** que estou na tela de Cadastro do Aluno
+- **Dado** que estou na tela de Cadastro do Student
 - **Quando** clica em Salvar
 - **Então** grava os dados editáveis na base
 ####
-- **Dado** que estou na tela de Cadastro do Aluno
+- **Dado** que estou na tela de Cadastro do Student
 - **Quando** clica em Cancelar
-- **Então** retorna para a tela de Consulta de Alunos
+- **Então** retorna para a tela de Consulta de Students
 - **E** não persiste a gravação dos dados
 
-#### Cenário: excluir cadastro de aluno
-- **Dado** que estou na listagem de alunos
-- **Quando** clico em Excluir aluno
+#### Cenário: excluir cadastro de student
+- **Dado** que estou na listagem de students
+- **Quando** clico em Excluir student
 - **Então** exibe a modal de confirmação de exclusão
 ####
 - **Dado** que estou na modal de confirmação de exclusão 
 - **Quando** clico em Confirmar
-- **Então** então exclui o registro do aluno
+- **Então** então exclui o registro do student
 ####
 - **Dado** que estou na modal de confirmação de exclusão
 - **Quando** clico em Cancelar
