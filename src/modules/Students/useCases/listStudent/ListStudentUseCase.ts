@@ -1,12 +1,16 @@
-import { Student } from "../../model/Student";
-import { StudentsRepository } from "../../repositories/implementations/StudentsRepository";
+import { inject, injectable } from "tsyringe";
+import { Student } from "../../entities/Student";
+import { IStudentsRepository } from "../../repositories/IStudentsRepositories";
 
-
+@injectable()
 class ListStudentUseCase {
-  constructor(private studentsRepository: StudentsRepository) {}
+  constructor(
+    @inject("StudentsRepository")
+    private studentsRepository: IStudentsRepository
+  ) {}
 
-  execute(): Student[] {
-    const students = this.studentsRepository.list();
+  async execute(): Promise<Student[]> {
+    const students = await this.studentsRepository.list();
   
     return students;
   }

@@ -1,42 +1,26 @@
-import { Student } from "../../model/Student";
-import { ICreateStudentDTO, IStudentsRepository } from "../IStudentsRepositories";
+import { getRepository, Repository } from "typeorm";
+import { Student } from "../../entities/Student";
+import { IStudentsRepository, ICreateStudentDTO } from "../IStudentsRepositories";
 
 class StudentsRepository implements IStudentsRepository{
   
-  private students: Student[];
+  private repository: Repository<Student>;
 
-  private static INSTANCE: StudentsRepository;
+  constructor() { this.repository = getRepository(Student); }
 
-  private constructor() { this.students = []; }
+  async create({ name, email, ra, cpf }: ICreateStudentDTO): Promise<void> {
+    const student = this.repository.create({ name, email, ra, cpf });
+    await this.repository.save(student);
+  }
 
-  public static getInstance(): StudentsRepository {
-    if (!StudentsRepository.INSTANCE) {
-      StudentsRepository.INSTANCE = new StudentsRepository();
-    }
-    return StudentsRepository.INSTANCE;
-  };
+  async list(): Promise<Student[]> {
+    const students = await this.repository.find();
+    return students;
+  }
 
-  create({ name, email, ra, cpf }: ICreateStudentDTO): Student {
-    const student = new Student();
-  
-    Object.assign(student, {
-      name,
-      email,
-      ra,
-      cpf
-    });
-
-    this.students.push(student);
-
+  async findById(id: string): Promise<Student> {
+    const student = await this.repository.findOne({ id });
     return student;
-  }
-
-  list(): Student[] {
-    return this.students;
-  }
-
-  findById(idStudent: string): Student {
-    return this.students.find(s => s.id === idStudent);
   }
 }
 

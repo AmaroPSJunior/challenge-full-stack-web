@@ -1,12 +1,12 @@
 version: "3,7"
 
 services:
-  database_grupo_a:
+  database:
     image: postgres
-    container_name: database_grupo_a
+    container_name: db_postgres
     restart: always
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       - POSTGRES_USER=docker
       - POSTGRES_PASSWORD=docker
@@ -16,9 +16,10 @@ services:
     network_mode: host
   app:
     build: .
-    container_name: grupo_a
+    command: npm run dev
+    container_name: app
     ports:
-      - 3333:3333
+      - "3333:3333"
     volumes:
       - .:/usr/app
     network_mode: host

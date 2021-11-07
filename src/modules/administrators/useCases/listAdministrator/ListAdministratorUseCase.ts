@@ -1,14 +1,19 @@
-import { Administrator } from "../../model/Administrator";
-import { AdministratorsRepository } from "../../repositories/implementations/AdministratorsRepository";
+import { inject, injectable } from "tsyringe";
+import { Administrator } from "../../entities/Administrator";
+import { IAdministratorsRepository } from "../../repositories/IAdministratorsRepositories";
 
 
+@injectable() 
 class ListAdministratorUseCase {
-  constructor(private administratorsRepository: AdministratorsRepository) {}
+  constructor(
+    @inject("AdministratorsRepository")
+    private administratorsRepository: IAdministratorsRepository
+  ) {}
 
-  execute(): Administrator[] {
-    const Administrators = this.administratorsRepository.list();
+  async execute(): Promise<Administrator[]> {
+    const administrator = await this.administratorsRepository.list();
   
-    return Administrators;
+    return administrator;
   }
 }
 

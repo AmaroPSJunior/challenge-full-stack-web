@@ -1,12 +1,19 @@
-import { Student } from "../../model/Student";
-import { StudentsRepository } from "../../repositories/implementations/StudentsRepository";
+import { inject, injectable } from "tsyringe";
+import { Student } from "../../entities/Student";
+import { IStudentsRepository } from "../../repositories/IStudentsRepositories";
 
-
+interface IRequest {
+  id: string;
+}
+@injectable()
 class StudentByIdUseCase {
-  constructor(private studentsRepository: StudentsRepository) {}
+  constructor(
+    @inject("StudentsRepository")
+    private studentsRepository: IStudentsRepository
+  ) {}
 
-  execute(id): Student {
-    const student = this.studentsRepository.findById(id);
+  async execute({ id }: IRequest): Promise<Student> {
+    const student = await this.studentsRepository.findById( id );
   
     return student;
   }

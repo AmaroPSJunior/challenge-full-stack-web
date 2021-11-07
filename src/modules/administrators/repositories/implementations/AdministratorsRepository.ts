@@ -1,41 +1,26 @@
-import { Administrator } from "../../model/Administrator";
+import { getRepository, Repository } from "typeorm";
+import { Administrator } from "../../entities/Administrator";
 import { IAdministratorsRepository, ICreateAdministratorDTO } from "../IAdministratorsRepositories";
 
 class AdministratorsRepository implements IAdministratorsRepository{
   
-  private administrators: Administrator[];
+  private repository: Repository<Administrator>;
 
-  private static INSTANCE: AdministratorsRepository;
+  constructor() { this.repository = getRepository(Administrator); }
 
-  private constructor() { this.administrators = []; }
+  async create({ name, email, cpf }: ICreateAdministratorDTO): Promise<void> {
+    const administrator = this.repository.create({ name, email, cpf });
+    await this.repository.save(administrator);
+  }
 
-  public static getInstance(): AdministratorsRepository {
-    if (!AdministratorsRepository.INSTANCE) {
-      AdministratorsRepository.INSTANCE = new AdministratorsRepository();
-    }
-    return AdministratorsRepository.INSTANCE;
-  };
+  async list(): Promise<Administrator[]> {
+    const administrators = await this.repository.find();
+    return administrators;
+  }
 
-  create({ name, email, cpf }: ICreateAdministratorDTO): Administrator {
-    const administrator = new Administrator();
-  
-    Object.assign(administrator, {
-      name,
-      email,
-      cpf
-    });
-
-    this.administrators.push(administrator);
-
+  async findById(id: string): Promise<Administrator> {
+    const administrator = await this.repository.findOne({ id });
     return administrator;
-  }
-
-  list(): Administrator[] {
-    return this.administrators;
-  }
-
-  findById(idAdmin: string): Administrator {
-    return this.administrators.find(a => a.id === idAdmin);
   }
 }
 

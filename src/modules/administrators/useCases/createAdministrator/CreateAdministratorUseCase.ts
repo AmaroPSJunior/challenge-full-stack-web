@@ -1,17 +1,21 @@
-import { Administrator } from "../../model/Administrator";
 import { IAdministratorsRepository } from "../../repositories/IAdministratorsRepositories";
+import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
   email: string;
-  cpf: string
+  cpf: string;
 }
 
+@injectable()
 class CreateAdministratorUseCase {
-  constructor(private AdministratorsRepository: IAdministratorsRepository) {}
+  constructor(
+    @inject("AdministratorsRepository")
+    private administratorsRepository: IAdministratorsRepository
+  ) {}
 
-  execute({name, email, cpf }: IRequest): Administrator {
-    return this.AdministratorsRepository.create({ name, email, cpf });
+  async execute({name, email, cpf }: IRequest): Promise<void> { 
+    await this.administratorsRepository.create({ name, email, cpf });
   }
 }
 

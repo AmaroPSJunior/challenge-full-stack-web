@@ -1,18 +1,22 @@
-import { Student } from "../../model/Student";
 import { IStudentsRepository } from "../../repositories/IStudentsRepositories";
+import { inject, injectable } from "tsyringe";
 
 interface IRequest {
   name: string;
   email: string;
-  ra: number,
-  cpf: string
+  ra: number;
+  cpf: string;
 }
 
+@injectable()
 class CreateStudentUseCase {
-  constructor(private studentsRepository: IStudentsRepository) {}
+  constructor(
+    @inject("StudentsRepository")
+    private studentsRepository: IStudentsRepository
+  ) {}
 
-  execute({name, email, ra, cpf }: IRequest): Student {
-    return this.studentsRepository.create({ name, email, ra, cpf });
+  async execute({name, email, ra, cpf }: IRequest): Promise<void> {
+    await this.studentsRepository.create({ name, email, ra, cpf });
   }
 }
 

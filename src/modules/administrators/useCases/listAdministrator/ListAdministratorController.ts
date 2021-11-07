@@ -1,14 +1,13 @@
 import { Request, Response } from "express";
 import { ListAdministratorUseCase } from "./ListAdministratorUseCase";
-
+import { container } from "tsyringe";
 
 class ListAdministratorController {
-  constructor(private listAdministratorUseCase: ListAdministratorUseCase) {}
-
-  handle(request: Request, response: Response): Response {
-    const Administrators = this.listAdministratorUseCase.execute();
+  async handle(request: Request, response: Response): Promise<Response> {
+    const listAdministratorUseCase = container.resolve(ListAdministratorUseCase);
+    const administrator = await listAdministratorUseCase.execute();
   
-    return response.status(201).json(Administrators);
+    return response.status(200).json(administrator);
   }
 }
 

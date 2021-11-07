@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import { StudentByIdUseCase } from "./StudentByIdUseCase";
-
+import { container } from "tsyringe";
 
 class StudentByIdController {
-  constructor(private studentByIdUseCase: StudentByIdUseCase) {}
-
-  handle(request: Request, response: Response, id): Response {
-    const students = this.studentByIdUseCase.execute(id);
+  async handle(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    const studentByIdUseCase = container.resolve(StudentByIdUseCase);
+    const students = await studentByIdUseCase.execute({ id });
   
     return response.status(201).json(students);
   }

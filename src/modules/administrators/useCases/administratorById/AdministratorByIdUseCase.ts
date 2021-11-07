@@ -1,11 +1,19 @@
-import { Administrator } from "../../model/Administrator";
-import { AdministratorsRepository } from "../../repositories/implementations/AdministratorsRepository";
+import { Administrator } from "../../entities/Administrator";
+import { inject, injectable } from "tsyringe";
+import { IAdministratorsRepository } from "../../repositories/IAdministratorsRepositories";
 
+interface IRequest {
+  id: string;
+}
 
+@injectable()
 class AdministratorByIdUseCase {
-  constructor(private administratorsRepository: AdministratorsRepository) {}
+  constructor(
+    @inject("AdministratorsRepository")
+    private administratorsRepository: IAdministratorsRepository
+  ) {}
 
-  execute(id: string): Administrator {
+  execute({ id }: IRequest): Promise<Administrator> {
     const administrator = this.administratorsRepository.findById(id);
     return administrator;
   }

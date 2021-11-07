@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import { createStudentController } from '../modules/Students/useCases/createStudent';
-import { listStudentController } from '../modules/Students/useCases/listStudent';
-import { studentByIdController } from '../modules/Students/useCases/studentById';
+import { CreateStudentController } from '../modules/students/useCases/createStudent/CreateStudentController';
+import { ListStudentController } from '../modules/students/useCases/listStudent/ListStudentController';
+import { StudentByIdController } from '../modules/students/useCases/studentById/StudentByIdController';
 
 const studentsRoutes = Router();
+const createStudentController = new CreateStudentController();
+const listStudentController = new ListStudentController();
+const studentByIdController = new StudentByIdController();
 
-studentsRoutes.post("/", (request, response) => createStudentController.handle(request, response));
-studentsRoutes.get("/", (request, response) => listStudentController.handle(request, response));
-studentsRoutes.get("/:id", (request, response) => {
-  const { id } = request.params;
-  studentByIdController.handle(request, response, id)
-});
+studentsRoutes.post("/", createStudentController.handle);
+studentsRoutes.get("/", listStudentController.handle);
+studentsRoutes.get("/:id", studentByIdController.handle);
 
 export { studentsRoutes }
