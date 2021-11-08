@@ -1,9 +1,7 @@
 <template>
   <v-container>
-
     <v-card>
       <v-card-text>
-      
           <validation-observer
             ref="observer"
             v-slot="{ invalid }"
@@ -38,7 +36,7 @@
 
               <validation-provider
                 v-slot="{ errors }"
-                name="ra"
+                name="telefone"
                 :rules="{
                   required: true,
                   digits: 11,
@@ -46,10 +44,10 @@
                 }"
               >
                 <v-text-field
-                  v-model="register.ra"
+                  v-model="register.phone"
                   :counter="11"
                   :error-messages="errors"
-                  label="RA"
+                  label="Telefone"
                   required
                 ></v-text-field>
               </validation-provider>
@@ -87,14 +85,13 @@
                 type="submit"
                 :disabled="invalid"
               >
-                submit 
+                Enviar 
               </v-btn>
               <v-btn @click="clear">
-                clear
+                Limpar
               </v-btn>
             </form>
           </validation-observer>
-        
       </v-card-text>
     </v-card>
   </v-container>
@@ -133,23 +130,23 @@
   })
 
   export default {
-    name: 'register',
+    name: 'form-register',
     components: {
       ValidationProvider,
       ValidationObserver,
     },
     data: () => ({
-      select: null,
+      select: 'Estudante',
       items: [
         'Estudante',
         'Administrador',
       ],
       checkbox: null,
       register: {
-        name: '', 
-        email: '', 
-        ra: null, 
-        cpf: ''
+        name: 'Amaro Silva', 
+        email: 'arcamos.j@gmail.com', 
+        phone: 12345678912, 
+        cpf: '11122233344'
       }
     }),
 
@@ -165,14 +162,17 @@
         this.register = {
           name: '', 
           email: '', 
-          ra: null, 
+          phone: null, 
           cpf: ''
         }
       },
 
       async send() {
         try {
-          await api.post('students', this.register);
+          const response = await api.post('users', this.register);
+          if (response) {
+            console.log('🔵 response', response)
+          }
         } catch (err) {
           console.log('🔴 err', err);
         }

@@ -1,11 +1,11 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
-@Entity('administrators')
-class Administrator {
-
+@Entity("users")
+class User {
+  
   @PrimaryColumn()
-  id?: string;
+  id?: string; 
 
   @Column()
   name: string;
@@ -14,7 +14,16 @@ class Administrator {
   email: string; 
 
   @Column()
+  phone: number;
+
+  @Column()
   cpf: string;
+
+  @Column()
+  profile: string;
+
+  @Column()
+  active: boolean;
 
   @CreateDateColumn()
   created_at: Date;
@@ -26,4 +35,4 @@ class Administrator {
   }
 }
 
-export { Administrator };
+export { User };

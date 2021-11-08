@@ -9,11 +9,11 @@
     }
   },
   "paths": {
-    "/students": {
+    "/users": {
       "post": {
-        "tags": ["Students"],
-        "summary": "Create a student",
-        "description": "Create a new student",
+        "tags": ["Users"],
+        "summary": "Create a user",
+        "description": "Create a new user",
         "requestBody": {
           "content": {
             "application/json": {
@@ -34,7 +34,7 @@
                   }
                 },
                 "example": {
-                  "name": "student name sample",
+                  "name": "user name sample",
                   "email": "sample@email.com",
                   "ra": 123456789,
                   "cpf": "00000000000"
@@ -48,14 +48,14 @@
             "description": "Created"
           },
           "500": {
-            "description": "Student already exists"
+            "description": "User already exists"
           }
         }
       },
       "get": {
-        "tags": ["Students"],
-        "summary": "List students",
-        "description": "List all students",
+        "tags": ["Users"],
+        "summary": "List users",
+        "description": "List all users",
         "responses": {
           "200": {
             "description": "Success",
@@ -81,7 +81,7 @@
                     }
                   },
                   "example": {
-                    "name": "student name sample",
+                    "name": "user name sample",
                     "email": "sample@email.com",
                     "ra": 123456789,
                     "cpf": "00000000000"
