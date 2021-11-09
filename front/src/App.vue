@@ -21,7 +21,7 @@
           v-for="(item, index) in items"
           :key="item.title"
           link
-          @click="navigate(index)"
+          @click="selectUserAuthenticate(index)"
         >
           <template v-if="item.visible">
           <v-list-item-icon>
@@ -59,7 +59,7 @@
         flat
       >
         <v-card class="align-self-center " :loading="loading" max-width="374">
-          <v-card-title @click="navigate(1)" dense>
+          <v-card-title @click="selectUserAuthenticate(1)" dense>
             <v-list-item two-line>
               <v-list-item-avatar height="100" width="100">
                   <v-icon size="100">{{ items[1].icon }}</v-icon>
@@ -80,14 +80,14 @@
               item-value="id"
               item-text="name"
               v-model="idAdmSelected"
-              @change="selectedItemAdm()"
+              @change="selectedProfileAdm()"
               label="Outros Administradores"
             ></v-select>
           </v-card-text>
         </v-card>
 
         <v-card class="align-self-center" :loading="loading" max-width="374">
-          <v-card-title @click="navigate(2)">
+          <v-card-title @click="selectUserAuthenticate(2)">
             <v-list-item two-line>
               <v-list-item-avatar height="100" width="100">
                   <v-icon size="100">{{ items[2].icon }}</v-icon>
@@ -130,11 +130,11 @@ export default {
 
   computed: {
     administrators: function () {
-      return store.state.users.filter(u => u.profile == 'Administrador');
+      return store.state.administrator;
     },
 
     students: function () {
-      return store.state.users.filter(u => u.profile == 'Student');
+      return store.state.student;
     }
   },
 
@@ -163,7 +163,7 @@ export default {
   },
 
   methods: {
-    navigate(id) {
+    selectUserAuthenticate(id) {
      this.itemSelected = id;
     },
     
@@ -183,11 +183,13 @@ export default {
       }
     },
 
-    selectedItemAdm() {
+    selectedProfileAdm() {
       this.admSelected = this.administrators.find(a => a.id == this.idAdmSelected);
+      console.log('🔵 this.admSelected ', this.admSelected)
+      store.commit('setauthenticated', this.admSelected);
     },
 
-    selectedItemSrtudent() {
+    selectedProfileSrtudent() {
       this.studentSelected = this.students.find(a => a.id == this.idStudentSelected);
     },
   } 

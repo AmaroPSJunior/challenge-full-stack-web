@@ -4,10 +4,11 @@
         <v-data-table
           :headers="headers"
           :items="users"
-          sort-by="calories"
+          sort-by="name"
           class="elevation-1"
           :loading="loading"
           loading-text="Loading... Please wait"
+          
         >
           <template v-slot:top>
             <v-toolbar flat >
@@ -57,7 +58,7 @@
                           md="4"
                         >
                           <v-text-field
-                            v-model="editedItem.calories"
+                            v-model="editedItem.email"
                             label="Email"
                           ></v-text-field>
                         </v-col>
@@ -67,7 +68,7 @@
                           md="4"
                         >
                           <v-text-field
-                            v-model="editedItem.fat"
+                            v-model="editedItem.cpf"
                             label="CPF"
                           ></v-text-field>
                         </v-col>
@@ -77,7 +78,7 @@
                           md="4"
                         >
                           <v-text-field
-                            v-model="editedItem.carbs"
+                            v-model="editedItem.phone"
                             label="Telefone"
                           ></v-text-field>
                         </v-col>
@@ -86,20 +87,22 @@
                           sm="6"
                           md="4"
                         >
-                          <v-text-field
-                            v-model="editedItem.protein"
+                          <v-select 
+                            :items="['Administrador', 'Aluno']"
+                            v-model="editedItem.profile"
                             label="Perfil"
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                         <v-col
                           cols="12"
                           sm="6"
                           md="4"
                         >
-                          <v-text-field
-                            v-model="editedItem.dtInit"
-                            label="Dt. Entrada"
-                          ></v-text-field>
+                          <v-switch
+                            v-model="editedItem.active"
+                            inset
+                            label="Ativo"
+                          ></v-switch>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -167,7 +170,6 @@
 </template>
 
 <script>
-import store from '../store';
  
   export default {
     name: 'listing',
@@ -197,17 +199,19 @@ import store from '../store';
       editedIndex: -1,
       editedItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        property: 0,
+        cpf: 0,
+        telefone: 0,
+        perfil: 0,
+        active: true,
       },
       defaultItem: {
         name: '',
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
+        email: 0,
+        cpf: 0,
+        telefone: 0,
+        perfil: 0,
+        active: true,
       },
     }),
 
@@ -227,11 +231,7 @@ import store from '../store';
     },
 
     created () {
-      console.log("teste1",store.state.users) // -> 1
-
-      // store.commit('setUsers', ['teste', 'amaro']);
-
-      // console.log("teste2",store.state.users) // -> 1
+      // console.log("teste1", store.state.users);
     },
 
     methods: {
@@ -273,10 +273,10 @@ import store from '../store';
 
       save () {
         if (this.editedIndex > -1) {
-          Object.assign(this.users[this.editedIndex], this.editedItem)
+          // Object.assign(this.users[this.editedIndex], this.editedItem)
           this.$emit('editUser', this.editedItem);
         } else {
-          this.users.push(this.editedItem)
+          // this.users.push(this.editedItem)
           this.$emit('newUser', this.editedItem);
 
         }

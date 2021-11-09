@@ -2,15 +2,15 @@
   <listing 
     @newUser="newUser" 
     @editUser="editUser" 
+    :users="users"
     :listing="true"
-    :Administrator="Administrator"
   />
 </template>
 
 <script>
   import Listing from '../components/Listing.vue';
   import api from '../services/api';
-// import store from '../store';
+  import store from '../store';
 
   export default {
     name: 'Home',
@@ -19,15 +19,30 @@
       Listing,
     },
 
+    computed: {
+      authenticated: function () {
+        return store.state.authenticated;
+      },
+      
+      users: function () {
+        return store.state.users.filter(u => u.profile == this.authenticated.profile);
+      },
+    },
+
     data: () => ({}),
 
+    created() {},
+
     methods: {
-      newUser(user) {
-        console.log('newUser', user);
+      async newUser(user) {
+        await api.post('users', user);
+        store.commit('getUsers');
       },
 
-      editUser(user) {
+      async editUser(user) {
         console.log('editUser', user);
+        await api.post('users', user);
+        store.commit('getUsers');
       },
 
       async getUsers() {
