@@ -17,7 +17,7 @@ class User {
   phone: number;
 
   @Column()
-  cpf: string;
+  cpf: number;
 
   @Column()
   profile: string;

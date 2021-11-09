@@ -27,22 +27,22 @@ export class CreateUsers1635920958703 implements MigrationInterface {
                         },
                         {
                             name: "cpf",
-                            type: "varchar"
+                            type: "int8"
                         },
                         {
                             name: "profile",
-                            type: "varchar",
-                            default: "true"
+                            type: "varchar"
                         },
                         {
                             name: "active",
-                            type: "boolean"
+                            type: "boolean",
+                            default: "true"
                         },
                         {
                             name: "created_at",
                             type: "timestamp",
                             default: "now()"
-                        }
+                        },
                     ]
                 }
             )

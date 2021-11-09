@@ -4,7 +4,7 @@ interface ICreateUserDTO {
   name: string;
   email: string;
   phone: number;
-  cpf: string;
+  cpf: number;
   profile: string;
   active: boolean;
 }
