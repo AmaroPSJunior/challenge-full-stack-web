@@ -16,16 +16,10 @@
                   <v-select :items="profiles" v-model="filterProfile"></v-select>
                 </v-layout>
               </v-col>
-              <v-divider
-                class="mx-4"
-                inset
-                vertical
-              ></v-divider>
+              <v-divider class="mx-4" inset vertical ></v-divider>
               <v-spacer></v-spacer>
-              <v-dialog
-                v-model="dialog"
-                max-width="500px"
-                ><template v-slot:activator="{ on, attrs }">
+              <v-dialog v-model="dialog" max-width="500px" >
+                <template v-slot:activator="{ on, attrs }">
                   <v-btn
                     color="primary"
                     dark
@@ -68,6 +62,7 @@
                               type="number"
                               :rules="cpfRules"
                               required
+                              :validation="true"
                               :messages="checkCpf()"
                               :error="!cpfIsValid"
                             ></v-text-field>
@@ -189,7 +184,7 @@
         value => !!value || 'Selecione um Perfil',
       ],
       cpfIsValid: false,
-      filterProfile: 'Administrador',
+      filterProfile: 'Todos',
     }),
 
     computed: {
@@ -198,11 +193,12 @@
       },
 
       profiles () {
-        return ['Administrador', 'Aluno']
+        return ['Todos', 'Administrador', 'Aluno']
       },
 
       filteredUsers () {
-        return this.users.filter(u => u.profile === this.filterProfile);
+        if (this.filterProfile === 'Todos') return this.users;
+        else return this.users.filter(u => u.profile === this.filterProfile);
       },
     },
 

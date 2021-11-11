@@ -26,6 +26,10 @@
           v-model="idUserSelected"
           :items="users"
         ></v-select>
+        <v-select 
+          :items="profiles" 
+          v-model="filterProfile"
+        ></v-select>
 
       </v-card-text>
     </template>

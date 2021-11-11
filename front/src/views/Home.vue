@@ -1,5 +1,5 @@
 <template>
-  <listing 
+  <Listing 
     @onNewUser="newUser" 
     @onEditUser="editUser" 
     :users="users"
