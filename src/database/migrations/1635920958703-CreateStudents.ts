@@ -15,11 +15,11 @@ export class CreateUsers1635920958703 implements MigrationInterface {
                         },
                         {
                             name: "name",
-                            type: "varchar"
+                            type: "varchar(30)"
                         },
                         {
                             name: "email",
-                            type: "varchar"
+                            type: "varchar(30)"
                         },
                         {
                             name: "phone",
@@ -31,7 +31,7 @@ export class CreateUsers1635920958703 implements MigrationInterface {
                         },
                         {
                             name: "profile",
-                            type: "varchar"
+                            type: "varchar(20)"
                         },
                         {
                             name: "active",

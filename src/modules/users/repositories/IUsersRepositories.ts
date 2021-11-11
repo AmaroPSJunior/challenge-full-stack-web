@@ -1,6 +1,7 @@
 import { User } from "../entities/User";
 
 interface ICreateUserDTO {
+  id?: string;
   name: string;
   email: string;
   phone: number;
@@ -10,7 +11,7 @@ interface ICreateUserDTO {
 }
 
 interface IUsersRepository {
-  create({ name, email, phone, cpf, profile, active }: ICreateUserDTO): Promise<void>;
+  create({ id, name, email, phone, cpf, profile, active }: ICreateUserDTO): Promise<void>;
   list(): Promise<User[]>;
   findById(id:string): Promise<User>;
 }
