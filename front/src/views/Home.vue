@@ -1,7 +1,7 @@
 <template>
   <listing 
-    @newUser="newUser" 
-    @editUser="editUser" 
+    @onNewUser="newUser" 
+    @onEditUser="editUser" 
     :users="users"
     :listing="true"
   />
@@ -25,7 +25,7 @@
       },
       
       users: function () {
-        return store.state.users.filter(u => u.profile == this.authenticated.profile);
+        return store.state.users;
       },
     },
 
@@ -36,22 +36,12 @@
     methods: {
       async newUser(user) {
         await api.post('users', user);
-        store.commit('getUsers');
+        store.dispatch('getUsers');
       },
 
       async editUser(user) {
-        console.log('editUser', user);
         await api.post('users', user);
-        store.commit('getUsers');
-      },
-
-      async getUsers() {
-        try {
-          const response = await api.get('users', this.register);
-          this.users = response.data;
-        } catch (err) {
-          console.log('🔴 err', err);
-        }
+        store.dispatch('getUsers');
       },
     }
   }
