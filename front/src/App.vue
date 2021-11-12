@@ -63,48 +63,19 @@
 
     <v-container v-else>
       <v-card class="d-flex justify-space-around" height="100vh" flat>
-
         <CardUser 
           :menu="menu"
           :users="users" 
           @onRoot="root"
           @onSetUserSelected="setUserSelected"
         />
-
-        <!-- <v-card class="align-self-center" :loading="loading" max-width="374">
-          <v-card-title @click="navigate(2)">
-            <v-list-item two-line>
-              <v-list-item-avatar height="100" width="100">
-                  <v-icon size="100">{{ menu[2].icon }}</v-icon>
-              </v-list-item-avatar>
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ studentSelected && studentSelected.name || 'Selecione um Aluno' }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{ studentSelected && studentSelected.email || '' }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>Área do Alunos</v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-select
-              :menu="students"
-              item-value="id"
-              item-text="name"
-              v-model="idStudentSelected"
-              label="Selecionar Aluno"
-            ></v-select>
-          </v-card-text>
-        </v-card> -->
-
       </v-card>
     </v-container>
   </v-app>
 </template>
 
 <script>
-import CardUser from './components/CardUser';
+import CardUser from './components/CardUser.vue';
 import store from './store';
 import swaggerImg from './assets/swagger.png'
 

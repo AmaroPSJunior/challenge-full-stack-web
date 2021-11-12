@@ -30,6 +30,11 @@ export class CreateUsers1635920958703 implements MigrationInterface {
                             type: "int8"
                         },
                         {
+                            name: "ra",
+                            type: "int8",
+                            isNullable: true
+                        },
+                        {
                             name: "profile",
                             type: "varchar(20)"
                         },

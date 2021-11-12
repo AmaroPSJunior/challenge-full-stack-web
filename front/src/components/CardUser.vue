@@ -16,19 +16,20 @@
       </v-list-item>
       {{ menuSelected && menuSelected.title || menuStandard.title }}
       </v-card-title>
-    <template v-if="users">
+    <template>
       <v-divider></v-divider>
       <v-card-text>
         <v-select 
-          label="Selecione"
+          label="Selecione um Usuário"
           item-value="id"
           item-text="name"
           v-model="idUserSelected"
-          :items="users"
+          :items="listUsers"
         ></v-select>
-        <v-select 
-          :items="profiles" 
+        <v-select
           v-model="filterProfile"
+          :items="profiles" 
+          v-if="users.length" 
         ></v-select>
 
       </v-card-text>
@@ -48,9 +49,14 @@ export default {
     // menuSelected: function () {
     //   return this.menu ? this.menu.find(m => m.title === this.userSelected.profile) : this.menuStandard;
     // },
+
+    listUsers: function () {
+      return this.users && this.users.length > 0 ? this.users : this.rootUser;
+    },
   },
   data: () => ({
     menuStandard: { title: 'Sem Usuário Selecionado', icon: 'mdi-account', visible: true },
+    rootUser: [{ name: 'Root', email: 'mdi-account', visible: true }],
     idUserSelected: null,
     userSelected: null,
     loading: false,

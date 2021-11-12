@@ -18,6 +18,9 @@ class User {
 
   @Column()
   cpf: number;
+  
+  @Column()
+  ra?: number;
 
   @Column()
   profile: string;

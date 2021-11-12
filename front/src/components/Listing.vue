@@ -142,6 +142,7 @@
         { text: 'Nome',         value: 'name',      sortable: false,  align: 'start' },
         { text: 'Email',        value: 'email'                                       },
         { text: 'CPF',          value: 'cpf'                                         },
+        { text: 'RA',           value: 'ra'                                          },
         { text: 'Telefone',     value: 'phone'                                       },
         { text: 'Perfil',       value: 'profile'                                     },
         { text: 'Dt. Entrada',  value: 'created_at'                                  },

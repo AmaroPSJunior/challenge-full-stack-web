@@ -7,6 +7,7 @@ interface IRequest {
   email: string;
   phone: number;
   cpf: number;
+  ra: number;
   profile: string;
   active: boolean;
 }
@@ -18,8 +19,8 @@ class CreateUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({id, name, email, phone, cpf, profile, active }: IRequest): Promise<void> {
-    await this.usersRepository.create({ id, name, email, phone, cpf, profile, active });
+  async execute({id, name, email, phone, cpf, ra, profile, active }: IRequest): Promise<void> {
+    await this.usersRepository.create({ id, name, email, phone, cpf, ra, profile, active });
   }
 }
 
