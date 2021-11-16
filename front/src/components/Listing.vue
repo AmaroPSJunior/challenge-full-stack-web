@@ -1,22 +1,23 @@
 <template>
   <v-container>
-    <v-card v-if="true">
+    <v-card>
         <v-data-table
           :headers="headers"
           :items="filteredUsers"
           sort-by="name"
           class="elevation-1"
-          :loading="loading"
-          loading-text="Loading... Please wait"
           ><template v-slot:top>
             <v-toolbar flat flex-wrap>
-              <v-col  sm="6" md="6">
-                <v-layout>
+              <v-col sm="8" md="6">
+                <v-layout v-if="isAdministrator">
                   <v-toolbar-title style="padding-right:10px;">Filtrar por: </v-toolbar-title>
-                  <v-select :items="profiles" v-model="filterProfile"></v-select>
+                  <v-select class="col col-sm-6 col-md-6" :items="profiles" v-model="filterProfile"></v-select>
+                </v-layout>
+                <v-layout v-else>
+                  <v-toolbar-title>{{ authenticated.name }}</v-toolbar-title>
                 </v-layout>
               </v-col>
-              <v-divider class="mx-4" inset vertical ></v-divider>
+              <!-- <v-divider class="mx-4" inset vertical ></v-divider> -->
               <v-spacer></v-spacer>
               <v-dialog v-model="dialog" max-width="500px" >
                 <template v-slot:activator="{ on, attrs }">
@@ -26,6 +27,7 @@
                     class="mb-2"
                     v-bind="attrs"
                     v-on="on"
+                    v-if="isAdministrator"
                     >+ Novo
                   </v-btn>
                 </template>
@@ -41,7 +43,7 @@
                         <v-row>
                           <v-col cols="12" sm="6" md="4">
                             <v-text-field 
-                              v-model="editedItem.name" 
+                              v-model="editedUser.name" 
                               label="Nome"
                               :rules="nameRules"
                               required
@@ -49,7 +51,7 @@
                           </v-col>
                           <v-col cols="12" sm="6" md="4">
                             <v-text-field 
-                              v-model="editedItem.email" 
+                              v-model="editedUser.email" 
                               label="Email"
                               :rules="emailRules"
                               required
@@ -57,7 +59,16 @@
                           </v-col>
                           <v-col cols="12" sm="6" md="4">
                             <v-text-field 
-                              v-model="editedItem.cpf" 
+                              v-model="editedUser.ra" 
+                              label="ra"
+                              type="number"
+                              :rules="raRules"
+                              required
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="6" md="4">
+                            <v-text-field 
+                              v-model="editedUser.cpf" 
                               label="CPF"
                               type="number"
                               :rules="cpfRules"
@@ -69,7 +80,7 @@
                           </v-col>
                           <v-col cols="12" sm="6" md="4">
                             <v-text-field 
-                              v-model="editedItem.phone" 
+                              v-model="editedUser.phone" 
                               label="Telefone"
                               type="number"
                               :rules="phoneRules"
@@ -79,14 +90,14 @@
                           <v-col cols="12" sm="6" md="4">
                             <v-select 
                               :items="profiles" 
-                              v-model="editedItem.profile"
+                              v-model="editedUser.profile"
                               label="Perfil"
                               :rules="profileRules"
                               required
                             ></v-select>
                           </v-col>
-                          <v-col cols="12" sm="6" md="4">
-                            <v-switch v-model="editedItem.active" inset label="Ativo"></v-switch>
+                          <v-col cols="12" sm="6" md="4" v-if="isAdministrator && filterProfile === 'Deletados'">
+                            <v-switch v-model="editedUser.active" inset label="Ativo"></v-switch>
                           </v-col>
                         </v-row>
                       </v-form>
@@ -103,7 +114,7 @@
 
               <v-dialog v-model="dialogDelete" max-width="500px">
                 <v-card>
-                  <v-card-title class="text-h5 justify-center" >Este item será inativado,</v-card-title>
+                  <v-card-title class="text-h5 justify-center" >Este Usuário será Deletado,</v-card-title>
                   <v-card-title class="text-h5 justify-center">tem certeza que deseja fazer isso?</v-card-title>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -120,7 +131,7 @@
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
           <template v-slot:no-data>
-            <v-btn color="primary" @click="initialize">Reset</v-btn>
+            <v-btn color="primary" @click="initialize">Atualizar</v-btn>
           </template>
         </v-data-table>
     </v-card>
@@ -132,7 +143,7 @@
   export default {
     name: 'listing',
     props: {
-      loading: { type: Boolean, default: false },
+      authenticated: { type: Object, required: true },
       users: { type: Array, require: true },
     },
     data: () => ({
@@ -150,7 +161,7 @@
         { text: 'Ações',        value: 'actions',   sortable: false                  },
       ],
       editedIndex: -1,
-      editedItem: {
+      editedUser: {
         name: null,
         property: null,
         cpf: null,
@@ -174,6 +185,9 @@
         value => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || 'CPF inválido',
         value => (value && value.length > 0 && value.length <= 30) || 'Entre 1 e 30 Caracteres',
       ],
+      raRules: [
+        value => value > 0 || 'Ra inválido',
+      ],
       cpfRules: [
         value => value > 0 || 'CPF inválido',
       ],
@@ -190,16 +204,22 @@
 
     computed: {
       formTitle () {
-        return this.editedIndex === -1 ? 'Novo Aluno' : 'Editar Aluno';
+        return this.editedIndex === -1 ? 'Novo Usuário' : 'Editar Usuário';
       },
 
       profiles () {
-        return ['Todos', 'Administrador', 'Aluno']
+        return ['Todos', 'Administrador', 'Aluno', 'Deletados']
       },
 
       filteredUsers () {
         if (this.filterProfile === 'Todos') return this.users;
-        else return this.users.filter(u => u.profile === this.filterProfile);
+        if (this.filterProfile === 'Deletados') return this.users.filter(u => !u.active);
+        return this.users.filter(u => u.profile === this.filterProfile && u.active);
+      },
+
+      
+      isAdministrator () {
+        return this.authenticated.profile === 'Administrador'
       },
     },
 
@@ -219,25 +239,25 @@
 
       editItem (item) {
         this.editedIndex = this.users.indexOf(item);
-        this.editedItem = Object.assign({}, item);
+        this.editedUser = Object.assign({}, item);
         this.dialog = true;
       },
 
       deleteItem (item) {
         this.editedIndex = this.users.indexOf(item);
-        this.editedItem = Object.assign({}, item);
+        this.editedUser = Object.assign({}, item);
         this.dialogDelete = true;
       },
 
       deleteItemConfirm () {
-        this.users.splice(this.editedIndex, 1);
+        this.$emit('onDeleteUser', this.editedUser);
         this.closeDelete();
       },
 
       close () {
         this.dialog = false
         this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
+          this.editedUser = Object.assign({}, this.defaultItem);
           this.editedIndex = -1;
         })
       },
@@ -245,7 +265,7 @@
       closeDelete () {
         this.dialogDelete = false
         this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
+          this.editedUser = Object.assign({}, this.defaultItem);
           this.editedIndex = -1;
         })
       },
@@ -254,9 +274,9 @@
         this.checkCpf();
         if (this.$refs.formUser.validate()) {
           if (this.editedIndex > -1) {
-            this.$emit('onEditUser', this.editedItem);
+            this.$emit('onEditUser', this.editedUser);
           } else {
-            this.$emit('onNewUser', this.editedItem);
+            this.$emit('onNewUser', this.editedUser);
           }
           this.close();
         }
@@ -283,9 +303,8 @@
         const checks = [is11Len, notAllEquals, onlyNum, verDig(9), verDig(10)];
         const checkAll = cpf => checks.map(f => f(cpf)).every(r => !!r);
         
-        if (this.editedItem.cpf) {
-          this.cpfIsValid = validate(this.editedItem.cpf);
-          // if (!this.cpfIsValid) 'teste';
+        if (this.editedUser.cpf) {
+          this.cpfIsValid = validate(this.editedUser.cpf);
         }
       },
     },

@@ -21,5 +21,8 @@ export default new Vuex.Store({
       commit('setUser', response.data);
     },
   },
+  getters: {
+    authenticated: state => state.authenticated,
+  },
   modules: {}
 })

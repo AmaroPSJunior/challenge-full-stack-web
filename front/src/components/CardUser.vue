@@ -15,7 +15,7 @@
         </v-list-item-content>
       </v-list-item>
       {{ menuSelected && menuSelected.title || menuStandard.title }}
-      </v-card-title>
+    </v-card-title>
     <template>
       <v-divider></v-divider>
       <v-card-text>
@@ -26,12 +26,6 @@
           v-model="idUserSelected"
           :items="listUsers"
         ></v-select>
-        <v-select
-          v-model="filterProfile"
-          :items="profiles" 
-          v-if="users.length" 
-        ></v-select>
-
       </v-card-text>
     </template>
   </v-card>

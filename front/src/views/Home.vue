@@ -1,9 +1,10 @@
 <template>
   <Listing 
     @onNewUser="newUser" 
-    @onEditUser="editUser" 
+    @onEditUser="editUser"
+    @onDeleteUser="deleteUser"
     :users="users"
-    :listing="true"
+    :authenticated="authenticated"
   />
 </template>
 
@@ -25,7 +26,11 @@
       },
       
       users: function () {
-        return store.state.users;
+        if (this.authenticated.profile === 'Administrador') {
+          return store.state.users;
+        }
+
+        return store.state.users.filter(u => u.id === this.authenticated.id);
       },
     },
 
@@ -35,14 +40,25 @@
 
     methods: {
       async newUser(user) {
-        await api.post('users', user);
+        const response = await api.post('users', user);
+        response.status === 201 ? alert(`Criado com sucesso!`) : null;
         store.dispatch('getUsers');
       },
 
       async editUser(user) {
+        const response = await api.post('users', user);
+        response.status === 201 ? alert(`Atualizado com sucesso!`) : null;
         await api.post('users', user);
         store.dispatch('getUsers');
       },
+      
+      async deleteUser(user) {
+        user.active = false;
+        const response = await api.post('users', user);
+        response.status === 201 ? alert(`Desativado com sucesso!`) : null;
+        store.dispatch('getUsers');
+      },
+       
     }
   }
 </script>
