@@ -11,7 +11,7 @@
               <v-col sm="8" md="6">
                 <v-layout v-if="isAdministrator">
                   <v-toolbar-title style="padding-right:10px;">Filtrar por: </v-toolbar-title>
-                  <v-select class="col col-sm-6 col-md-6" :items="profiles" v-model="filterProfile"></v-select>
+                  <v-select class="col col-sm-6 col-md-6" :items="profileFilterList" v-model="filterProfile"></v-select>
                 </v-layout>
                 <v-layout v-else>
                   <v-toolbar-title>{{ authenticated.name }}</v-toolbar-title>
@@ -86,7 +86,7 @@
                           </v-col>
                           <v-col cols="12" sm="6" md="4">
                             <v-select 
-                              :items="profiles" 
+                              :items="registrationFormProfile" 
                               v-model="editedUser.profile"
                               label="Perfil"
                               :rules="profileRules"
@@ -204,8 +204,13 @@
         return this.editedIndex === -1 ? 'Novo Usuário' : 'Editar Usuário';
       },
 
-      profiles () {
+      
+      profileFilterList () {
         return ['Todos', 'Administrador', 'Aluno', 'Deletados']
+      },
+
+      registrationFormProfile() {
+        return ['Administrador', 'Aluno']
       },
 
       filteredUsers () {

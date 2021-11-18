@@ -1,6 +1,11 @@
 <template>
   <v-card class="align-self-center" :loading="loading" max-width="374">
-    <v-card-title @click="selectUserAuthenticate" dense style="cursor: pointer;">
+    <v-card-title 
+      dense 
+      v-if="idUserSelected"
+      :class="{'selected': idUserSelected}"
+      @click="selectUserAuthenticate" 
+    >
       <v-list-item two-line>
         <v-list-item-avatar height="100" width="100">
             <v-icon size="100">{{ menuSelected && menuSelected.icon || menuStandard.icon }}</v-icon>
@@ -40,21 +45,19 @@ export default {
     menu: { type: Array, default: null },
   },
   computed: {
-    // menuSelected: function () {
-    //   return this.menu ? this.menu.find(m => m.title === this.userSelected.profile) : this.menuStandard;
-    // },
+    menuSelected: function () {
+      return this.menu && this.userSelected && this.userSelected.profile ? this.menu.find(m => m.title === this.userSelected.profile) : this.menuStandard;
+    },
 
     listUsers: function () {
-      return this.users && this.users.length > 0 ? this.users : this.rootUser;
+      return this.users ? this.users : [];
     },
   },
   data: () => ({
     menuStandard: { title: 'Sem Usuário Selecionado', icon: 'mdi-account', visible: true },
-    rootUser: [{ name: 'Root', email: 'mdi-account', visible: true }],
     idUserSelected: null,
     userSelected: null,
     loading: false,
-    menuSelected: null,
   }),
 
   watch: {
@@ -68,10 +71,10 @@ export default {
   
   methods: {
     selectUserAuthenticate() {
-      if(!this.users) {
-        this.$emit('onRoot');
-        return;
-      }
+      // if(!this.users) {
+      //   this.$emit('onRoot');
+      //   return;
+      // }
       
       if (!this.userSelected) {
         alert("Selecione uma Usuário");
@@ -82,3 +85,16 @@ export default {
   } 
 }
 </script>
+
+<style lang="scss" scoped>
+
+.selected {
+  cursor: pointer; 
+  box-shadow: 0px 5px 5px -3px rgb(25 118 210 / 50%), 0px 8px 10px 1px rgb(25 118 210 / 50%), 0px 3px 14px 2px rgb(25 118 210 / 50%);
+  border: solid 1px rgb(25 118 210 / 50%);
+   &:hover {
+     background-color: rgb(25 118 210 / 50%);
+   }
+}
+
+</style>
