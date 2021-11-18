@@ -75,7 +75,8 @@ class CreateUserUseCase {
     const errorValidateCpf = checkCpf(cpf);
     if (errorValidateCpf) throw new AppError(errorValidateCpf);
 
-    await this.usersRepository.create({ id, name, email, phone, cpf, ra, profile, active });
+    const userRegistred = await this.usersRepository.findByUser({ id, name, email, phone, cpf, ra, profile, active });
+    if(!userRegistred) await this.usersRepository.create({ id, name, email, phone, cpf, ra, profile, active });
   }
 }
 

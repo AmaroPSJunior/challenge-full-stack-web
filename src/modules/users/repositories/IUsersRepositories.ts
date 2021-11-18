@@ -14,6 +14,7 @@ interface ICreateUserDTO {
 interface IUsersRepository {
   create({ id, name, email, phone, cpf, ra, profile, active }: ICreateUserDTO): Promise<void>;
   list(): Promise<User[]>;
+  findByUser({ name, email, phone, cpf, ra, profile, active }: ICreateUserDTO): Promise<User>;
   findById(id:string): Promise<User>;
 }
 
