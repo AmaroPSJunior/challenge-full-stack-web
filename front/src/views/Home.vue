@@ -40,23 +40,36 @@
 
     methods: {
       async newUser(user) {
-        const response = await api.post('users', user);
-        response.status === 201 ? alert(`Criado com sucesso!`) : null;
-        store.dispatch('getUsers');
+        try {
+          const response = await api.post('users', user);
+          if(response.status == 201) alert(`Criado com sucesso!`);
+          store.dispatch('getUsers');
+        } catch (error) {
+          console.log('🔴 error', error );
+        }
       },
 
       async editUser(user) {
-        const response = await api.post('users', user);
-        response.status === 201 ? alert(`Atualizado com sucesso!`) : null;
-        await api.post('users', user);
-        store.dispatch('getUsers');
+        try {
+          const response = await api.post('users', user);
+          if(response && response.status == 200) alert(`Atualizado com sucesso!`);
+          store.dispatch('getUsers');
+        } catch (error) {
+          console.log('🔴 error', error );
+         }
       },
       
       async deleteUser(user) {
-        user.active = false;
-        const response = await api.post('users', user);
-        response.status === 201 ? alert(`Desativado com sucesso!`) : null;
-        store.dispatch('getUsers');
+        try {
+          user.active = false;
+          const response = await api.post('users', user);
+          response.status === 201 ? alert(`Desativado com sucesso!`) : null;
+          store.dispatch('getUsers');
+        } catch (error) {
+          console.log('🔴 error', error );
+          store.commit('setModalError', error)
+          alert(store.getters('modalError'))
+         }
       },
        
     }

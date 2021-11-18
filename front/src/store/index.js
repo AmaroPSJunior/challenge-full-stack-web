@@ -8,11 +8,13 @@ export default new Vuex.Store({
   state: {
     users: null,
     authenticated: null,
+    modalError: null,
   },
   
   mutations: {
     async setUser(state, setState) { state.users = setState },
     async setAuthenticated(state, setState) { state.authenticated = setState },
+    async setModalError(state, setState) { state.modalError = setState },
   },
 
   actions: {
@@ -23,6 +25,7 @@ export default new Vuex.Store({
   },
   getters: {
     authenticated: state => state.authenticated,
+    modalError: state => state.modalError,
   },
   modules: {}
 })

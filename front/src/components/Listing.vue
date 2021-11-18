@@ -73,9 +73,6 @@
                               type="number"
                               :rules="cpfRules"
                               required
-                              :validation="true"
-                              :messages="checkCpf()"
-                              :error="!cpfIsValid"
                             ></v-text-field>
                           </v-col>
                           <v-col cols="12" sm="6" md="4">
@@ -178,12 +175,12 @@
         active: true,
       },
       nameRules: [ 
-        value => !!value || 'Não pode ser vazio',
-        value => (value && value.length > 0 && value.length <= 30) || 'Entre 1 e 30 Caracteres'
+        // value => !!value || 'Não pode ser vazio',
+        value => (value && value.length > 0 && value.length <= 29) || 'Deve ter entre 1 e 29 Caracteres'
       ],
       emailRules: [
-        value => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || 'CPF inválido',
-        value => (value && value.length > 0 && value.length <= 30) || 'Entre 1 e 30 Caracteres',
+        value => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || 'Email inválido',
+        value => (value && value.length > 0 && value.length <= 29) || 'Deve ter entre 1 e 29 Caracteres',
       ],
       raRules: [
         value => value > 0 || 'Ra inválido',
@@ -198,7 +195,7 @@
       profileRules: [
         value => !!value || 'Selecione um Perfil',
       ],
-      cpfIsValid: false,
+      cpfIsValid: null,
       filterProfile: 'Todos',
     }),
 
@@ -282,11 +279,6 @@
         }
       },
 
-      validateEmail(email) {
-        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-      },
-
       checkCpf() {      
         const validate = cpf => checkAll(prepare(cpf));
         const notDig = i => !['.', '-', ' '].includes(i);
@@ -303,9 +295,8 @@
         const checks = [is11Len, notAllEquals, onlyNum, verDig(9), verDig(10)];
         const checkAll = cpf => checks.map(f => f(cpf)).every(r => !!r);
         
-        if (this.editedUser.cpf) {
-          this.cpfIsValid = validate(this.editedUser.cpf);
-        }
+        if (this.editedUser.cpf) this.cpfIsValid = validate(this.editedUser.cpf);
+        return this.cpfIsValid || null;
       },
     },
   }

@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <modal :modalError="true" />
     <template v-if="userSelected">  
       <v-navigation-drawer app >
         <template v-slot:prepend>
@@ -78,9 +79,10 @@
 import CardUser from './components/CardUser.vue';
 import store from './store';
 import swaggerImg from './assets/swagger.png'
+import Modal from './components/Modal.vue';
 
 export default {
-  components: { CardUser, },
+  components: { CardUser, Modal, },
   name: 'App',
   props: {},
 
@@ -114,7 +116,7 @@ export default {
 
   data: () => ({
     menu: [
-      { title: 'Home', icon: 'mdi-home-city', visible: true },
+      { title: 'início', icon: 'mdi-home-city', visible: true },
       { title: 'Administrador', icon: 'mdi-account', visible: true },
       { title: 'Aluno', icon: 'mdi-account-group-outline', visible: true },
     ],
