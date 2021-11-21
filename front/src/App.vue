@@ -80,7 +80,6 @@ import CardUser from './components/CardUser.vue';
 import store from './store';
 import swaggerImg from './assets/swagger.png'
 import Modal from './components/Modal.vue';
-import api from './services/api';
 
 export default {
   components: { CardUser, Modal, },
@@ -89,15 +88,7 @@ export default {
 
   computed: {
     users: function () {
-      console.log('🟢 store.state.users', store && store.state && store.state.users && store.state.users.length ? store.state.users.length : 'vazio');
-      if(store && store.state && store.state.users && store.state.users.length && store.state.users.length > 0) {
-        console.log('🟢 if true');
-        return store.state.users 
-      } else {
-        console.log('🟢 if false');
-        this.firstUser(); 
-        return null;
-      }
+      return store.state.users;
     },
 
     userSelected: function () {
@@ -136,25 +127,6 @@ export default {
   },
 
   methods: {
-    async firstUser() {
-      try {
-        const user = {
-          name: "Administrador",
-          email: "admin@admin.com",
-          phone: 123456789,
-          cpf: 32268300900,
-          ra: 123456789,
-          profile: "Administrador",
-          active: true
-        };
-
-        const response = await api.post('users', user);
-        if(response.status == 201) store.dispatch('getUsers');
-      } catch (error) {
-        console.log('🔴 error', error );
-      }
-    },
-
     navigate(id) {
       if (id == 0) this.setUserSelected(null);
     },

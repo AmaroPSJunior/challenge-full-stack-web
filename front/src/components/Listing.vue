@@ -60,7 +60,7 @@
                           <v-col cols="12" sm="6" md="4">
                             <v-text-field 
                               v-model="editedUser.ra" 
-                              label="ra"
+                              label="Ra"
                               type="number"
                               :rules="raRules"
                               required
@@ -183,10 +183,27 @@
         value => (value && value.length > 0 && value.length <= 29) || 'Deve ter entre 1 e 29 Caracteres',
       ],
       raRules: [
-        value => value > 0 || 'Ra inválido',
+        value => (value && value.length > 0 && value.length <= 19) || 'Deve ter entre 1 e 19 Caracteres'
       ],
       cpfRules: [
-        value => value > 0 || 'CPF inválido',
+        value => {
+          const validate = cpf => checkAll(prepare(cpf));
+          const notDig = i => !['.', '-', ' '].includes(i);
+          const prepare = cpf => cpf.trim().split('').filter(notDig).map(Number);
+          const is11Len = cpf => cpf.length === 11;
+          const notAllEquals = cpf => !cpf.every(i => cpf[0] === i);
+          const onlyNum = cpf => cpf.every(i => !isNaN(i));
+          const calcDig = limit => (a, i, idx) => a + i * ((limit + 1) - idx);
+          const somaDig = (cpf, limit) => cpf.slice(0, limit).reduce(calcDig(limit), 0);
+          const resto11 = somaDig => 11 - (somaDig % 11);
+          const zero1011 = resto11 => [10, 11].includes(resto11) ? 0 : resto11;
+          const getDV = (cpf, limit) => zero1011(resto11(somaDig(cpf, limit)));
+          const verDig = pos => cpf => getDV(cpf, pos) === cpf[pos];
+          const checks = [is11Len, notAllEquals, onlyNum, verDig(9), verDig(10)];
+          const checkAll = cpf => checks.map(f => f(cpf)).every(r => !!r);
+
+          return value > 0 && validate(value) || 'CPF inválido'
+        },
       ],
       phoneRules: [
         value => !!value || 'Não pode ser vazio',
@@ -195,7 +212,6 @@
       profileRules: [
         value => !!value || 'Selecione um Perfil',
       ],
-      cpfIsValid: null,
       filterProfile: 'Todos',
     }),
 
@@ -273,7 +289,6 @@
       },
 
       save () {
-        this.checkCpf();
         if (this.$refs.formUser.validate()) {
           if (this.editedIndex > -1) {
             this.$emit('onEditUser', this.editedUser);
@@ -284,25 +299,6 @@
         }
       },
 
-      checkCpf() {      
-        const validate = cpf => checkAll(prepare(cpf));
-        const notDig = i => !['.', '-', ' '].includes(i);
-        const prepare = cpf => cpf.trim().split('').filter(notDig).map(Number);
-        const is11Len = cpf => cpf.length === 11;
-        const notAllEquals = cpf => !cpf.every(i => cpf[0] === i);
-        const onlyNum = cpf => cpf.every(i => !isNaN(i));
-        const calcDig = limit => (a, i, idx) => a + i * ((limit + 1) - idx);
-        const somaDig = (cpf, limit) => cpf.slice(0, limit).reduce(calcDig(limit), 0);
-        const resto11 = somaDig => 11 - (somaDig % 11);
-        const zero1011 = resto11 => [10, 11].includes(resto11) ? 0 : resto11;
-        const getDV = (cpf, limit) => zero1011(resto11(somaDig(cpf, limit)));
-        const verDig = pos => cpf => getDV(cpf, pos) === cpf[pos];
-        const checks = [is11Len, notAllEquals, onlyNum, verDig(9), verDig(10)];
-        const checkAll = cpf => checks.map(f => f(cpf)).every(r => !!r);
-        
-        if (this.editedUser.cpf) this.cpfIsValid = validate(this.editedUser.cpf);
-        return this.cpfIsValid || null;
-      },
     },
   }
 </script>
