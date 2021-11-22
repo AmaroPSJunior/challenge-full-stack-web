@@ -1,3 +1,28 @@
+
+Instrução para execução!
+===================
+
+### Execute os comandos abaixo na seguinte sequencia!
+
+1 - Instalação necessária para executar banco de dados postgres:
+````
+npm run db_install
+````
+
+2 - Instalação necessária para executar backend:
+````
+npm install
+````
+
+2 - Instalação necessária para executar frontend:
+````
+npm run frontend_install
+````
+
+
+===================
+
+
 GrupoA Educação - Full Stack Web Developer
 ===================
 
