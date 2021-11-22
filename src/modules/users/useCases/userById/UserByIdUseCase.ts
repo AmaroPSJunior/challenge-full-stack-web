@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe";
+import { AppError } from "../../../../errors/AppError";
 import { User } from "../../entities/User";
 import { IUsersRepository } from "../../repositories/IUsersRepositories";
 
@@ -15,6 +16,8 @@ class UserByIdUseCase {
   async execute({ id }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById( id );
   
+    if (!user) throw new AppError('user not found!', 404);
+
     return user;
   }
 }
