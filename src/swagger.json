@@ -96,6 +96,33 @@
           }
         }
       }
+    },
+    "/users/{uuidv4}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Find user by UUID",
+        "description": "Returns a single user",
+        "operationId": "getPetById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "uuidv4",
+            "in": "path",
+            "description": "UUID of user to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [{ "api_key": [] }]
+      }
     }
   }
 }

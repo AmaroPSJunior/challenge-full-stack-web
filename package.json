@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "npm run typeorm migration:run && ts-node-dev --inspect --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli",
+    "db_install": "docker run --name teste-postgres2 -e \"POSTGRES_PASSWORD=postgres\" -p 5555:5432 -v /db -d postgres",
+    "backend_install": "npm run db_install && npm run dev",
     "test": "jest"
   },
   "dependencies": {
