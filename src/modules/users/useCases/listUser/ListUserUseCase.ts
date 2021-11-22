@@ -11,8 +11,8 @@ class ListUserUseCase {
 
   async execute(): Promise<User[]> {
     const firstUser = async (): Promise<User[]> => {  
-      console.log('firstUser')
       await this.usersRepository.create({
+        id: "b67705e4-9d01-4e6b-9fb1-ec5b758726eb",
         name: "Administrador",
         email: "admin@admin.com",
         phone: 123456789,
