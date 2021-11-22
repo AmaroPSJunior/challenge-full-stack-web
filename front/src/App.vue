@@ -1,12 +1,12 @@
 <template>
   <v-app>
-    <modal :modalError="true" />
+    <Modal :modalData="success || error" @onModalClose="modalClose" />
     <template v-if="userSelected">  
       <v-navigation-drawer app >
         <template v-slot:prepend>
           <v-list-item two-line>
             <v-list-item-avatar height="50" width="50">
-                <v-icon size="100">{{ menu.find(m => m.title === userSelected.profile).icon }}</v-icon>
+              <v-icon size="100">{{ menu.find(m => m.title === userSelected.profile).icon }}</v-icon>
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -67,7 +67,6 @@
         <CardUser 
           :menu="menu"
           :users="users" 
-          @onRoot="root"
           @onSetUserSelected="setUserSelected"
         />
       </v-card>
@@ -98,12 +97,12 @@ export default {
     img: function () {
       return swaggerImg;
     },
-  },
-
-  watch: {
-    teste: function() {
-      alert('teste')
-    }
+    error: function () {
+      return store.state.modalError;
+    },
+    success: function () {
+      return store.state.modalSuccess;
+    },
   },
 
   data: () => ({
@@ -140,12 +139,8 @@ export default {
       store.commit('setAuthenticated', user);
     },
 
-    root(user) {
-      store.commit('setAuthenticated', user);
-    },
-
-    selectedProfileSrtudent() {
-      this.studentSelected = this.students.find(a => a.id == this.idStudentSelected);
+    modalClose(method) {
+      store.commit(method , null);
     },
   } 
 }

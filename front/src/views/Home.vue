@@ -42,33 +42,46 @@
       async newUser(user) {
         try {
           const response = await api.post('users', user);
-          if(response.status == 201) alert(`Criado com sucesso!`);
+          if(response.status == 201) {
+            store.commit('setModalSuccess', { 
+              message: `Criado com sucesso!` 
+            });
+          }
           store.dispatch('getUsers');
         } catch (error) {
-          console.log('🔴 error', error );
+          store.commit('setModalError', { error: true, message: error });
         }
       },
 
       async editUser(user) {
         try {
           const response = await api.post('users', user);
-          if(response && response.status == 200) alert(`Atualizado com sucesso!`);
+          if(response && response.status == 200) {
+            store.commit('setModalSuccess', {
+              success: true,
+              message: `${user.profile} atualizado com sucesso!` 
+            });
+            this.$nextTick();
+          }
           store.dispatch('getUsers');
         } catch (error) {
-          console.log('🔴 error', error );
-         }
+          store.commit('setModalError', { error: true, message: error });
+        }
       },
       
       async deleteUser(user) {
         try {
           user.active = false;
           const response = await api.post('users', user);
-          response.status === 201 ? alert(`Desativado com sucesso!`) : null;
+          if(response.status === 201) {
+            store.commit('setModalSuccess', {
+              success: true,
+              message: `Desativado com sucesso!` 
+            });
+          }
           store.dispatch('getUsers');
         } catch (error) {
-          console.log('🔴 error', error );
-          store.commit('setModalError', error)
-          alert(store.getters('modalError'))
+          store.commit('setModalError', { error: true, message: error });
          }
       },
        

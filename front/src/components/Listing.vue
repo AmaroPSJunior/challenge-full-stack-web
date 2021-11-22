@@ -17,7 +17,6 @@
                   <v-toolbar-title>{{ authenticated.name }}</v-toolbar-title>
                 </v-layout>
               </v-col>
-              <!-- <v-divider class="mx-4" inset vertical ></v-divider> -->
               <v-spacer></v-spacer>
               <v-dialog v-model="dialog" max-width="500px" >
                 <template v-slot:activator="{ on, attrs }">
@@ -175,7 +174,6 @@
         active: true,
       },
       nameRules: [ 
-        // value => !!value || 'Não pode ser vazio',
         value => (value && value.length > 0 && value.length <= 29) || 'Deve ter entre 1 e 29 Caracteres'
       ],
       emailRules: [
