@@ -44,7 +44,7 @@
           const response = await api.post('users', user);
           if(response.status == 201) {
             store.commit('setModalSuccess', { 
-              message: `Criado com sucesso!` 
+              message: `${user.profile} criado com sucesso!` 
             });
           }
           store.dispatch('getUsers');
@@ -73,10 +73,10 @@
         try {
           user.active = false;
           const response = await api.post('users', user);
-          if(response.status === 201) {
+          if(response.status === 200) {
             store.commit('setModalSuccess', {
               success: true,
-              message: `Desativado com sucesso!` 
+              message: `${user.profile} desativado com sucesso!` 
             });
           }
           store.dispatch('getUsers');

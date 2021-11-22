@@ -92,7 +92,7 @@
                               required
                             ></v-select>
                           </v-col>
-                          <v-col cols="12" sm="6" md="4" v-if="isAdministrator && filterProfile === 'Deletados'">
+                          <v-col cols="12" sm="6" md="4" v-if="isAdministrator && !editedUser.active">
                             <v-switch v-model="editedUser.active" inset label="Ativo"></v-switch>
                           </v-col>
                         </v-row>
@@ -181,6 +181,7 @@
         value => (value && value.length > 0 && value.length <= 29) || 'Deve ter entre 1 e 29 Caracteres',
       ],
       raRules: [
+        value => !!value || 'Ra inválido',
         value => (value && value.length > 0 && value.length <= 19) || 'Deve ter entre 1 e 19 Caracteres'
       ],
       cpfRules: [
@@ -204,7 +205,7 @@
         },
       ],
       phoneRules: [
-        value => !!value || 'Não pode ser vazio',
+        value => !!value || 'Telefone inválido',
         value => (value && value.length > 0 && value.length <= 19) || 'Entre 1 e 19 Caracteres',
       ],
       profileRules: [
