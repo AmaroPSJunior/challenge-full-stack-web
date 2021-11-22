@@ -26,11 +26,11 @@
       },
       
       users: function () {
-        if (this.authenticated.profile === 'Administrador') {
-          return store.state.users;
-        }
+        const { users } = store.state;
+        users.map(u => u.created_at = `${u.created_at.slice(0,10)}  ${u.created_at.slice(11,-8)}`)
+        if (this.authenticated.profile === 'Administrador') return users;
 
-        return store.state.users.filter(u => u.id === this.authenticated.id);
+        return users.filter(u => u.id === this.authenticated.id);
       },
     },
 

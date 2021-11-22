@@ -92,6 +92,14 @@
                               required
                             ></v-select>
                           </v-col>
+                          <v-col cols="12" sm="8" md="8" v-if="editedUser.created_at">
+                                <v-text-field
+                                  v-model="editedUser.created_at"
+                                  label="Data Registro"
+                                  readonly
+                                  disabled
+                                ></v-text-field>
+                          </v-col>
                           <v-col cols="12" sm="6" md="4" v-if="isAdministrator && !editedUser.active">
                             <v-switch v-model="editedUser.active" inset label="Ativo"></v-switch>
                           </v-col>
@@ -100,6 +108,7 @@
                     </v-container>
                   </v-card-text>
 
+                  <v-divider></v-divider>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="close">Cancelar</v-btn>
@@ -121,6 +130,12 @@
                 </v-card>
               </v-dialog>
             </v-toolbar>
+          </template>
+          <template v-slot:item.active="{ item }">
+            <v-simple-checkbox
+              v-model="item.active"
+              disabled
+            ></v-simple-checkbox>
           </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
@@ -152,7 +167,7 @@
         { text: 'RA',           value: 'ra'                                          },
         { text: 'Telefone',     value: 'phone'                                       },
         { text: 'Perfil',       value: 'profile'                                     },
-        { text: 'Dt. Entrada',  value: 'created_at'                                  },
+        // { text: 'Dt. Entrada',  value: 'created_at', visible: false                  },
         { text: 'Ativo',        value: 'active'                                      },
         { text: 'Ações',        value: 'actions',   sortable: false                  },
       ],
@@ -174,15 +189,24 @@
         active: true,
       },
       nameRules: [ 
-        value => (value && value.length > 0 && value.length <= 29) || 'Deve ter entre 1 e 29 Caracteres'
+        value => {
+          const nameLength = 29;
+          return (value && value.length > 0 && value.length <= nameLength) || `Deve ter entre 1 e ${nameLength} Caracteres`
+        }
       ],
       emailRules: [
         value => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || 'Email inválido',
-        value => (value && value.length > 0 && value.length <= 29) || 'Deve ter entre 1 e 29 Caracteres',
+        value => {
+          const emailLength = 29;
+          return (value && value.length > 0 && value.length <= emailLength) || `Deve ter entre 1 e ${emailLength} Caracteres`
+        }
       ],
       raRules: [
         value => !!value || 'Ra inválido',
-        value => (value && value.length > 0 && value.length <= 19) || 'Deve ter entre 1 e 19 Caracteres'
+        value => {
+          const raLength = 19;
+          return (value && value.length > 0 && value.length <= raLength) || `Deve ter entre 1 e ${raLength} Caracteres`
+        }
       ],
       cpfRules: [
         value => {
@@ -206,7 +230,10 @@
       ],
       phoneRules: [
         value => !!value || 'Telefone inválido',
-        value => (value && value.length > 0 && value.length <= 19) || 'Entre 1 e 19 Caracteres',
+        value => {
+          const phoneLength = 19;
+          return (value && value.length > 0 && value.length <= phoneLength) || `Deve ter entre 1 e ${phoneLength} Caracteres`
+        }
       ],
       profileRules: [
         value => !!value || 'Selecione um Perfil',
