@@ -1,28 +1,82 @@
 
-Instrução para execução!
+Instrução para instalação e execução!
 ===================
+### Requisitos pre instalados:
+* Docker para rodar banco de dados "postgres": https://docs.docker.com/get-docker/
+* nodejs: https://nodejs.org/en/download/
 
-### Execute os comandos abaixo na seguinte sequencia!
 
+### Instalação:
+Execute os comandos abaixo na seguinte sequencia!
 1 - Instalação necessária para executar banco de dados postgres:
 ````
-npm run db_install
+npm run db_install  ou  yarn db_install
 ````
 
 2 - Instalação necessária para executar backend:
+<br>
+na raiz do projeto execute o comando abaixo
 ````
-npm install
-````
-
-2 - Instalação necessária para executar frontend:
-````
-npm run frontend_install
+npm install  ou  yarn
 ````
 
+3 - Instalação necessária para executar frontend:
+````
+npm run frontend_install ou yarn frontend_install
+````
 
-===================
+ou se preferir pode navegar ate a raiz do front e execute a partir de la
+````
+cd front
+````
+
+````
+npm install  ou  yarn
+````
+
+<br>
+<br>
+<br>
+<hr>
+<br>
 
 
+### iniciando backend:
+4 - verifique se o banco de dados "postgres" esta executando,
+se sim então execute o comando abaixo
+````
+npm run dev  ou  yarn dev
+````
+
+### iniciando frontend:
+4 - Com backend em execução, abra outro terminal e execute o comando abaixo
+
+````
+npm run front  ou  yarn front
+````
+
+ou se preferir pode navegar ate a raiz do front e execute a partir de la
+````
+cd front
+````
+
+````
+npm run serve  ou  yarn serve
+````
+
+<br>
+<hr>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 GrupoA Educação - Full Stack Web Developer
 ===================
 
