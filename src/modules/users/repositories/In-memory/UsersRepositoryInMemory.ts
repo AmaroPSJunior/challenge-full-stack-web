@@ -4,7 +4,7 @@ import { ICreateUserDTO, IUsersRepository } from "../IUsersRepositories";
 
 class UsersRepositoryInMemory implements IUsersRepository {
 
-  users: Users[] = [];
+  users: User[] = [];
 
   async create1({ id, name, email, phone, cpf, ra, profile, active }: ICreateUserDTO): Promise<void> {
     const user = new User();
