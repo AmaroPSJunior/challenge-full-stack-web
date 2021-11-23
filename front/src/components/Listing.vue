@@ -6,6 +6,18 @@
           :items="filteredUsers"
           sort-by="name"
           class="elevation-1"
+          rows-per-page-text="Linhas por página"
+          itemsPerPage="5"
+          :footer-props="{
+            options: {itemsPerPage: 5},
+            itemsPerPageText: 'Linhas por página',
+            showFirstLastPage: true,
+            firstIcon: 'mdi-arrow-collapse-left',
+            lastIcon: 'mdi-arrow-collapse-right',
+            prevIcon: 'mdi-minus',
+            nextIcon: 'mdi-plus',
+          }"
+          pageText="page teste"
           ><template v-slot:top>
             <v-toolbar flat flex-wrap>
               <v-col sm="8" md="6">
@@ -131,6 +143,7 @@
               </v-dialog>
             </v-toolbar>
           </template>
+          <template v-slot:footer.page-text="items"> {{ items.pageStart }} - {{ items.pageStop }} de {{ items.itemsLength }} </template>'
           <template v-slot:item.active="{ item }">
             <v-simple-checkbox
               v-model="item.active"
