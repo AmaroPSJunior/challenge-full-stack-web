@@ -1,49 +1,46 @@
+import { AppError } from "../../../../errors/AppError";
 import { UsersRepositoryInMemory } from "../../repositories/In-memory/UsersRepositoryInMemory";
 import { CreateUserUseCase } from "./CreateUserUseCase"
 
 describe("Create User", () => {
-  let createUser: CreateUserUseCase;
+  let createUserUseCase: CreateUserUseCase;
   let usersRepositoryInMemory: UsersRepositoryInMemory;
+  const user = {
+    name: "User Test",
+    email: "test@test.com",
+    phone: 123456789,
+    cpf: 32268300900,
+    ra: 123456789,
+    profile: "Aluno",
+    active: true
+  };
 
   beforeEach(() => {
     usersRepositoryInMemory = new UsersRepositoryInMemory();
     createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
-  })
+  });
 
   it("should be able to create a new user", async () => {
-    const user = {
-      id: "b67705e4-9d01-4e6b-9fb1-ec5b758726eb",
-      name: "Administrador",
-      email: "admin@admin.com",
-      phone: 123456789,
-      cpf: 32268300900,
-      ra: 123456789,
-      profile: "Administrador",
-      active: true
-    };
+    await createUserUseCase.execute(user);
+    const userCreated = await usersRepositoryInMemory.findByUser(user);
+    expect(userCreated).toHaveProperty("id");
+  });
 
-    await createUserUseCase.execute({
-      id: "b67705e4-9d01-4e6b-9fb1-ec5b758726eb",
-      name: "Administrador",
-      email: "admin@admin.com",
-      phone: 123456789,
-      cpf: 32268300900,
-      ra: 123456789,
-      profile: "Administrador",
-      active: true
-    });
+  it("deve retornar erro se algum parametro for nulo", async () => {  
+    // expect(async () => {
+    //   user.name = null;
+    //   user.email = '';
+    //   console.log('user2: ', user)
+    //   await createUserUseCase.execute(user);
+    //   console.log('AppError: ', AppError)
 
-    const UserCreated = await UsersRepositoryInMemory.findByUser({  
-      id: "b67705e4-9d01-4e6b-9fb1-ec5b758726eb",
-      name: "Administrador",
-      email: "admin@admin.com",
-      phone: 123456789,
-      cpf: 32268300900,
-      ra: 123456789,
-      profile: "Administrador",
-      active: true
-    });
+    // }).rejects.toBeInstanceOf(AppError);
 
-    console.log(userCreated)
-  })
-})
+    user.name = null;
+    user.email = '';
+    console.log('user2: ', user)
+    await createUserUseCase.execute(user);
+    console.log('AppError: ', AppError)
+    expect(AppError).toHaveProperty;
+  });
+});
