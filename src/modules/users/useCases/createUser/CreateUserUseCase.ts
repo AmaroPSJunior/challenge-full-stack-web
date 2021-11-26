@@ -20,23 +20,24 @@ class CreateUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
 
-  async execute({ id, name, email, phone, cpf, ra, profile, active }: IRequest): Promise<void> {
+  async execute(user: IRequest): Promise<void> {
     const mandatoryParamsSetting = [
       { param: 'name',     maxLength: 29 },
       { param: 'email',    maxLength: 29 },
       { param: 'phone',    maxLength: 19 },
       { param: 'cpf',      maxLength: 19 },
       { param: 'ra',       maxLength: 19 },
-      { param: 'profile',  maxLength: 19 }
+      { param: 'profile',  maxLength: 19 },
+      { param: 'active'                  }
     ];
 
-    const checkNull = (bodyParams: IRequest): string => {
-      const paramNull = mandatoryParamsSetting.find(mp => !bodyParams[mp.param]);
+    const checkNull = (user: IRequest): string => {
+      const paramNull = mandatoryParamsSetting.find(mp => !user[mp.param]);
       return paramNull ? `${paramNull.param} cannot be empty` : null;
     }
 
-    const ckeckMaxLength = (bodyParams: IRequest): string => {
-      const paramMax = mandatoryParamsSetting.find(mp => `${bodyParams[mp.param]}`.length > mp.maxLength);
+    const ckeckMaxLength = (user: IRequest): string => {
+      const paramMax = mandatoryParamsSetting.find(mp => `${user[mp.param]}`.length > mp.maxLength);
       return paramMax ? `${paramMax.param} must have a maximum of ${paramMax.maxLength} characters` : null;
     }
 
@@ -63,20 +64,21 @@ class CreateUserUseCase {
       return validate(cpf) ? null : 'Invalid CPF';
     }
     
-    const errorParamNull = checkNull({ id, name, email, phone, cpf, ra, profile, active });
+    const errorParamNull = checkNull(user);
     if (errorParamNull) throw new AppError(errorParamNull);
     
-    const errorMaxCharacter = ckeckMaxLength({ id, name, email, phone, cpf, ra, profile, active });
+    const errorMaxCharacter = ckeckMaxLength(user);
     if (errorMaxCharacter) throw new AppError(errorMaxCharacter);
     
-    const errorValidateEmail = validateEmail(email);
+    const errorValidateEmail = validateEmail(user.email);
     if (errorValidateEmail) throw new AppError(errorValidateEmail);
     
-    const errorValidateCpf = checkCpf(cpf);
+    const errorValidateCpf = checkCpf(user.cpf);
     if (errorValidateCpf) throw new AppError(errorValidateCpf);
 
-    const userRegistred = await this.usersRepository.findByUser({ id, name, email, phone, cpf, ra, profile, active });
-    if(!userRegistred) await this.usersRepository.create({ id, name, email, phone, cpf, ra, profile, active });
+    const userRegistred = await this.usersRepository.findByUser(user);
+    if(userRegistred) throw new AppError('User already exists');
+    await this.usersRepository.create(user);
   }
 }
 
