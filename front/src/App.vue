@@ -87,7 +87,7 @@ export default {
 
   computed: {
     users: function () {
-      return store.state.users;
+      return store.state.users || [];
     },
 
     userSelected: function () {

@@ -8,22 +8,18 @@
           class="elevation-1"
           rows-per-page-text="Linhas por página"
           itemsPerPage="5"
-          :footer-props="{
-            options: {itemsPerPage: 5},
-            itemsPerPageText: 'Linhas por página',
-            showFirstLastPage: true,
-            firstIcon: 'mdi-arrow-collapse-left',
-            lastIcon: 'mdi-arrow-collapse-right',
-            prevIcon: 'mdi-minus',
-            nextIcon: 'mdi-plus',
-          }"
+          :footer-props="footerProps"
           pageText="page teste"
           ><template v-slot:top>
             <v-toolbar flat flex-wrap>
               <v-col sm="8" md="6">
                 <v-layout v-if="isAdministrator">
                   <v-toolbar-title style="padding-right:10px;">Filtrar por: </v-toolbar-title>
-                  <v-select class="col col-sm-6 col-md-6" :items="profileFilterList" v-model="filterProfile"></v-select>
+                  <v-select 
+                    class="col col-sm-6 col-md-6"
+                    :items="profileFilterList"
+                    v-model="filterProfile"
+                  ></v-select>
                 </v-layout>
                 <v-layout v-else>
                   <v-toolbar-title>{{ authenticated.name }}</v-toolbar-title>
@@ -180,10 +176,27 @@
         { text: 'RA',           value: 'ra'                                          },
         { text: 'Telefone',     value: 'phone'                                       },
         { text: 'Perfil',       value: 'profile'                                     },
-        // { text: 'Dt. Entrada',  value: 'created_at', visible: false                  },
         { text: 'Ativo',        value: 'active'                                      },
         { text: 'Ações',        value: 'actions',   sortable: false                  },
       ],
+      footerProps: {
+        options: {
+          itemsPerPage: 5,
+          // page: 1,
+          // sortBy: ["teste1", "teste2"],
+          // sortDesc: [true],
+          // groupBy: ["t1", "t2"],
+          // groupDesc: [true],
+          // multiSort: true,
+          // mustSort: true
+        },
+        itemsPerPageText: 'Linhas por página',
+        showFirstLastPage: true,
+        firstIcon: 'mdi-arrow-collapse-left',
+        lastIcon: 'mdi-arrow-collapse-right',
+        prevIcon: 'mdi-minus',
+        nextIcon: 'mdi-plus',
+      },
       editedIndex: -1,
       editedUser: {
         name: null,

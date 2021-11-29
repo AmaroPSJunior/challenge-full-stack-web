@@ -49,15 +49,17 @@ export default {
     users: { type: Array, default: null },
     menu: { type: Array, default: null },
   },
+  
   computed: {
     menuSelected: function () {
-      return this.menu && this.userSelected && this.userSelected.profile ? this.menu.find(m => m.title === this.userSelected.profile) : this.menuStandard;
+      return this.menu && this.userSelected && this.userSelected.profile ? this.menu.find(m => m.title === this.userSelected.profile) : {};
     },
 
     listUsers: function () {
-      return this.users ? this.users : [];
+      return this.users;
     },
   },
+
   data: () => ({
     idUserSelected: null,
     userSelected: null,
@@ -67,7 +69,7 @@ export default {
   watch: {
     idUserSelected: function(val) {
       this.userSelected = this.users.find(u => u.id.includes(val))
-      this.menuSelected = this.menu ? this.menu.find(m => m.title === this.userSelected.profile) : this.menuStandard;
+      this.menuSelected = this.menu ? this.menu.find(m => m.title === this.userSelected.profile) : {};
     }
   },
   

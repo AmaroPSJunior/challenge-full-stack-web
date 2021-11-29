@@ -31,7 +31,7 @@ export default {
 
   computed: {
     modal() {
-      return this.modalData;
+      return this.modalData ? this.modalData : null;
     },
     modalType() {
       const type = this.modalData && this.modalData.error ? "bottom" : "top";
