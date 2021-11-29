@@ -1,14 +1,6 @@
-import { getRepository, LessThan, LessThanOrEqual, MoreThan, MoreThanOrEqual, Repository } from "typeorm";
+import { getRepository, LessThan, LessThanOrEqual, MinKey, MoreThan, MoreThanOrEqual, Repository } from "typeorm";
 import { User } from "../../entities/User";
-import { ICreateUserDTO, IPaginationDTO, IUsersRepository } from "../IUsersRepositories";
-
-interface IResponse {
-  users: User[];
-  pagination?: {
-    total?: number;
-    page?: number;
-  }
-}
+import { ICreateUserDTO, IPaginationDTO, IResponseDTO, IUsersRepository } from "../IUsersRepositories";
 
 class UsersRepository implements IUsersRepository{
   
@@ -22,18 +14,31 @@ class UsersRepository implements IUsersRepository{
     await this.repository.save(user);
   }
 
-  async list(pagination: IPaginationDTO): Promise<IResponse> {
+  async list(pagination: IPaginationDTO): Promise<IResponseDTO> {
     const id = pagination.id;
-    const user = await this.repository.findOne({ id });
+    const user = id ? await this.repository.findOne({ id }) : null;
+    const query = this.repository.createQueryBuilder("users");
+    const { min } = !user ? await query.select("MIN(users.created_at)").getRawOne() : null;
     const total = await this.repository.count({ cache: true });
-    console.log('total', total)
     const users = await this.repository.find({
-      select: ["id", "name", "email", "ra", "cpf", "phone", "profile", "created_at", "active"],
-      where: { 
+      select: [
+        "id",
+        "name",
+        "email",
+        "ra",
+        "cpf",
+        "phone",
+        "profile",
+        "created_at",
+        "active"
+      ],
+      where: user ? { 
         created_at: pagination.next 
-        ? (this.page === 1 ? MoreThanOrEqual(user.created_at) : MoreThan(user.created_at)) 
+        ? (this.page === 1 ? MoreThanOrEqual(user.created_at) 
+        : MoreThan(user.created_at)) 
         : LessThanOrEqual(user.created_at) 
-      },
+      } 
+      : { created_at: MoreThanOrEqual(min)},
       order: { name: "ASC" },
       take: pagination.limit,
       cache: true,

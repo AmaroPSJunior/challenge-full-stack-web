@@ -20,9 +20,13 @@ export default new Vuex.Store({
   },
 
   actions: {
-    async getUsers({ commit }) {
-      const response = await api.get('users');
-      commit('setUser', response.data);
+    async getUsers({ commit }, pagination) {
+      try {
+        const response = await api.get('users', { params: pagination });
+        commit('setUser', response.data.users);
+      } catch (error) {
+        commit('setModalError', { error: true, message: error });
+      }
     },
   },
   getters: {
