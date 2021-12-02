@@ -8,6 +8,8 @@ Instrução para instalação e execução!
 
 ### Instalação:
 Execute os comandos abaixo na seguinte sequencia!
+<br>
+<br>
 1 - Instalação necessária para executar banco de dados postgres:
 ````
 npm run db_install  ou  yarn db_install
@@ -36,7 +38,6 @@ npm install  ou  yarn
 
 <br>
 <br>
-<br>
 <hr>
 <br>
 
@@ -63,6 +64,18 @@ cd front
 ````
 npm run serve  ou  yarn serve
 ````
+
+<br>
+<br>
+<hr>
+<br>
+
+### iniciando testes com jest:
+5 - Execute o comando abaixo para rodar os testes:
+````
+npm run test  ou  yarn test
+````
+
 
 <br>
 <hr>
