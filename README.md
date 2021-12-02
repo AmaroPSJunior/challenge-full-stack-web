@@ -50,7 +50,7 @@ npm run dev  ou  yarn dev
 ````
 
 ### iniciando frontend:
-4 - Com backend em execução, abra outro terminal e execute o comando abaixo
+5 - Com backend em execução, abra outro terminal e execute o comando abaixo
 
 ````
 npm run front  ou  yarn front
@@ -71,7 +71,7 @@ npm run serve  ou  yarn serve
 <br>
 
 ### iniciando testes com jest:
-5 - Execute o comando abaixo para rodar os testes:
+6 - Execute o comando abaixo para rodar os testes:
 ````
 npm run test  ou  yarn test
 ````
