@@ -28,12 +28,11 @@ class CreateUserUseCase {
       { param: 'cpf',      maxLength: 19 },
       { param: 'ra',       maxLength: 19 },
       { param: 'profile',  maxLength: 19 },
-      { param: 'active'                  }
     ];
 
     const checkNull = (user: IRequest): string => {
       const paramNull = mandatoryParamsSetting.find(mp => !user[mp.param]);
-      return paramNull ? `${paramNull.param} cannot be empty` : null;
+      return paramNull ? `field ${paramNull.param} cannot be empty` : null;
     }
 
     const ckeckMaxLength = (user: IRequest): string => {
@@ -76,8 +75,6 @@ class CreateUserUseCase {
     const errorValidateCpf = checkCpf(user.cpf);
     if (errorValidateCpf) throw new AppError(errorValidateCpf);
 
-    const userRegistred = await this.usersRepository.findByUser(user);
-    if(userRegistred) throw new AppError('User already exists');
     await this.usersRepository.create(user);
   }
 }
