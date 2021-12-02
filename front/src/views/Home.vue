@@ -72,7 +72,6 @@
       
       async deleteUser(user) {
         try {
-          user.active = false;
           const response = await api.post('users', user);
           if(response.status === 200) {
             store.commit('setModalSuccess', {

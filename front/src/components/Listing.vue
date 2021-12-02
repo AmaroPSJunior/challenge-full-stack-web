@@ -318,8 +318,11 @@ import store from '../store';
       },
 
       deleteItemConfirm () {
+        this.editedUser.active = false;
         this.$emit('onDeleteUser', this.editedUser);
         this.closeDelete();
+        console.log('🟢 active, isAdministrator', this.editedUser.active, this.isAdministrator );
+        if(!this.editedUser.active && !this.isAdministrator) store.commit('setAuthenticated', null);
       },
 
       close () {
@@ -341,8 +344,7 @@ import store from '../store';
       save () {
         if (this.$refs.formUser.validate()) {
           if (this.editedIndex > -1) {
-            this.$emit('onEditUser', this.editedUser);
-            if(!this.editedUser.active) store.commit('setAuthenticated', null);
+            this.$emit('onEditUser', this.editedUser);   
           } else {
             this.$emit('onNewUser', this.editedUser);
           }
