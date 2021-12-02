@@ -6,8 +6,6 @@
           :items="filteredUsers"
           sort-by="name"
           class="elevation-1"
-          rows-per-page-text="Linhas por página"
-          itemsPerPage="5"
           :footer-props="footerProps"
           pageText="page teste"
           ><template v-slot:top>
@@ -159,6 +157,7 @@
 </template>
 
 <script>
+import store from '../store';
  
   export default {
     name: 'listing',
@@ -181,15 +180,16 @@
       ],
       footerProps: {
         options: {
-          itemsPerPage: 5,
-          // page: 1,
-          // sortBy: ["teste1", "teste2"],
-          // sortDesc: [true],
-          // groupBy: ["t1", "t2"],
-          // groupDesc: [true],
+          itemsPerPage: 10,
+          page: 2,
+          sortBy: ["teste1", "teste2"],
+          sortDesc: [true],
+          groupDesc: [true],
           // multiSort: true,
           // mustSort: true
         },
+         1: 5,
+        page: 2,
         itemsPerPageText: 'Linhas por página',
         showFirstLastPage: true,
         firstIcon: 'mdi-arrow-collapse-left',
@@ -291,18 +291,16 @@
       isAdministrator () {
         return this.authenticated.profile === 'Administrador'
       },
+
+      pagination () {
+        return store.state.pagination;
+      },
     },
 
     watch: {
-      dialog (val) {
-        val || this.close();
-      },
-      dialogDelete (val) {
-        val || this.closeDelete();
-      },
+      dialog (val) { val || this.close(); },
+      dialogDelete (val) { val || this.closeDelete(); },
     },
-
-    created () {},
 
     methods: {
       initialize () {},
@@ -354,3 +352,10 @@
     },
   }
 </script>
+
+<style>
+  .v-data-table__wrapper {
+    overflow-y: auto !important;
+    height: 300px !important;
+  }
+</style>

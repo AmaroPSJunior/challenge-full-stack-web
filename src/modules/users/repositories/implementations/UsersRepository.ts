@@ -39,7 +39,7 @@ class UsersRepository implements IUsersRepository{
         : LessThanOrEqual(user.created_at) 
       } 
       : { created_at: MoreThanOrEqual(min)},
-      order: { name: "ASC" },
+      order: { created_at: "DESC" },
       take: pagination.limit,
       cache: true,
     });

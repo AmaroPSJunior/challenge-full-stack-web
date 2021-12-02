@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     users: null,
+    pagination: null,
     authenticated: null,
     modalError: null,
     modalSuccess: null,
@@ -14,6 +15,7 @@ export default new Vuex.Store({
   
   mutations: {
     setUser(state, setState) { state.users = setState },
+    setPagination(state, setState) { state.pagination = setState },
     setAuthenticated(state, setState) { state.authenticated = setState },
     setModalError(state, setState) { state.modalError = setState },
     setModalSuccess(state, setState) { state.modalSuccess = setState },
@@ -24,6 +26,7 @@ export default new Vuex.Store({
       try {
         const response = await api.get('users', { params: pagination });
         commit('setUser', response.data.users);
+        commit('setPagination', response.data.pagination);
       } catch (error) {
         commit('setModalError', { error: true, message: error });
       }

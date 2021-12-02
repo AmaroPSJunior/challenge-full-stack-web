@@ -26,11 +26,12 @@
       },
       
       users: function () {
-        const { users } = store.state;
-        users.map(u => u.created_at = `${u.created_at.slice(0,10)}  ${u.created_at.slice(11,-8)}`)
-        if (this.authenticated.profile === 'Administrador') return users;
+        const userList = store.state.users || [];
+        userList.forEach(u => u.created_at = `${u.created_at.slice(0,10)}  ${u.created_at.slice(11,-8)}`);
+        
+        if (this.authenticated.profile === 'Administrador') return userList;
 
-        return users.filter(u => u.id === this.authenticated.id);
+        return userList.filter(u => u.id === this.authenticated.id);
       },
     },
 
