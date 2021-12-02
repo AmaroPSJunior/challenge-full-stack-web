@@ -342,6 +342,7 @@ import store from '../store';
         if (this.$refs.formUser.validate()) {
           if (this.editedIndex > -1) {
             this.$emit('onEditUser', this.editedUser);
+            if(!this.editedUser.active) window.location.href = '/';
           } else {
             this.$emit('onNewUser', this.editedUser);
           }

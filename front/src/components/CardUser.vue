@@ -57,7 +57,7 @@ export default {
     },
 
     listUsers: function () {
-      return this.users;
+      return this.users.filter(u => u.active);
     },
   },
 
