@@ -140,7 +140,9 @@ export default {
     },
 
     modalClose(method) {
-      store.commit(method , null);
+      setTimeout(() => {
+        store.commit(method , null);
+      }, 300);
     },
   } 
 }

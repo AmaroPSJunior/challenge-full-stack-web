@@ -52,7 +52,8 @@ export default {
   
   computed: {
     menuSelected: function () {
-      return this.menu && this.userSelected && this.userSelected.profile ? this.menu.find(m => m.title === this.userSelected.profile) : {};
+      const m = this.menu && this.userSelected && this.userSelected.profile ? this.menu.find(m => m.title === this.userSelected.profile) : {};
+      return m;
     },
 
     listUsers: function () {
@@ -64,12 +65,13 @@ export default {
     idUserSelected: null,
     userSelected: null,
     loading: false,
+    menuActive: null,
   }),
 
   watch: {
     idUserSelected: function(val) {
       this.userSelected = this.users.find(u => u.id.includes(val))
-      this.menuSelected = this.menu ? this.menu.find(m => m.title === this.userSelected.profile) : {};
+      this.menuActive = this.menu ? this.menu.find(m => m.title === this.userSelected.profile) : {};
     }
   },
   
