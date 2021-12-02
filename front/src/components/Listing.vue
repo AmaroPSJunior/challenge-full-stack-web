@@ -342,7 +342,7 @@ import store from '../store';
         if (this.$refs.formUser.validate()) {
           if (this.editedIndex > -1) {
             this.$emit('onEditUser', this.editedUser);
-            if(!this.editedUser.active) window.location.href = '/';
+            if(!this.editedUser.active) store.commit('setAuthenticated', null);
           } else {
             this.$emit('onNewUser', this.editedUser);
           }
